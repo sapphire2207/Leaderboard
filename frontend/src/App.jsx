@@ -8,6 +8,8 @@ import SuccessMessage from './components/successMessage';
 import TopPerformers from './components/topPerformers';
 import Leaderboard from './components/leaderboard';
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 function App() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState('');
@@ -28,19 +30,19 @@ function App() {
   }, [currentPage]);
 
   const fetchUsers = async () => {
-    const res = await axios.get('http://localhost:4000/api/users/getAllUsers');
+    const res = await axios.get(`${BACKEND_URL}/api/users/getAllUsers`);
     setUsers(res.data);
   };
 
   const fetchLeaderboard = async (page = 1) => {
-    const res = await axios.get(`http://localhost:4000/api/leaderboard/getLeaderboard?page=${page}&limit=${usersPerPage}`);
-    setLeaderboard(res.data.users);   
-    setTotalUsers(res.data.total);    
+    const res = await axios.get(`${BACKEND_URL}/api/leaderboard/getLeaderboard?page=${page}&limit=${usersPerPage}`);
+    setLeaderboard(res.data.users);
+    setTotalUsers(res.data.total);
   };
 
   const handleClaim = async () => {
     if (!selectedUser) return alert('Please select a user.');
-    const res = await axios.post('http://localhost:4000/api/claim/claimPoints', {
+    const res = await axios.post(`${BACKEND_URL}/api/claim/claimPoints`, {
       userId: selectedUser,
     });
     setLastClaimed(res.data);
@@ -50,7 +52,7 @@ function App() {
 
   const handleAddUser = async () => {
     if (!newUser) return;
-    await axios.post('http://localhost:4000/api/users/createUser', { name: newUser });
+    await axios.post(`${BACKEND_URL}/api/users/createUser`, { name: newUser });
     setNewUser('');
     fetchUsers();
     fetchLeaderboard(currentPage);
