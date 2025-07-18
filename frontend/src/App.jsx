@@ -8,7 +8,7 @@ import SuccessMessage from './components/successMessage';
 import TopPerformers from './components/topPerformers';
 import Leaderboard from './components/leaderboard';
 
-const BACKEND_URL = import.meta.env.BACKEND_URL;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   const [users, setUsers] = useState([]);
